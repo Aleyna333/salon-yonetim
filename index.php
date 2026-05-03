@@ -1,13 +1,5 @@
-<?php 
-$server = "localhost";
-$user = "root";
-$password ="";
-$database = "mini_adres";
-$baglanti = mysqli_connect($server, $user, $password, $database);
-
-if(!$baglanti){
-    die("Hata:" . mysqli_connect_error());
-}
+<?php
+require "db.php";
 
 function guvenli($veri) {
     return htmlspecialchars($veri, ENT_QUOTES, "UTF-8");
@@ -188,12 +180,4 @@ if(isset($_GET["arama"])){
 
 </table>
 
-<script>
-    document.getElementById("yeniBtn").onclick = function() {
-         document.getElementById("modal").style.display = "block";
-    };
-
-     document.getElementById("kapatBtn").onclick = function() {
-         document.getElementById("modal").style.display = "none";
-    };
-</script>
+<script src="script.js"></script>

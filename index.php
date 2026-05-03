@@ -130,21 +130,21 @@ if(isset($_GET["arama"])){
     <input type="hidden" name="edit_id" value="<?php if(isset( $editRow)) {
     echo guvenli($editRow["id"]);
     }  else {echo "";} ?>">
-    <input type="text" name="name" value="<?php if(isset( $editRow)) {
+    <input type="text" class="form-control mb-2" name="name" value="<?php if(isset( $editRow)) {
     echo guvenli($editRow["name"]);
     }  else {echo "";} ?>" placeholder="Ad">
-    <input type="text" name="surname" value="<?php if(isset( $editRow)) {
+    <input type="text" class="form-control mb-2" name="surname" value="<?php if(isset( $editRow)) {
     echo guvenli($editRow["surname"]);
     }  else {echo "";} ?>" placeholder="Soyad">
-    <input type="text" name="phone" value="<?php if(isset( $editRow)) {
+    <input type="text" class="form-control mb-2" name="phone" value="<?php if(isset( $editRow)) {
     echo guvenli($editRow["phone"]);
     }  else {echo "";} ?>" placeholder="Telefon">
-    <input type="text" name="email" value="<?php if(isset( $editRow)) {
+    <input type="text" class="form-control mb-2" name="email" value="<?php if(isset( $editRow)) {
     echo guvenli($editRow["email"]);
     }  else {echo "";} ?>" placeholder="Mail">
     
-    <button type="submit">Kaydet</button>
-    <button type="button" id="kapatBtn">Kapat</button>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <button type="button" class="btn btn-secondary" id="kapatBtn">Kapat</button>
 
 </form>
 

@@ -5,6 +5,10 @@ $password ="";
 $database = "mini_adres";
 $baglanti = mysqli_connect($server, $user, $password, $database);
 
+if(!$baglanti){
+    die("Hata:" . mysqli_connect_error());
+}
+
 function guvenli($veri) {
     return htmlspecialchars($veri, ENT_QUOTES, "UTF-8");
 }
@@ -90,9 +94,9 @@ if(isset($_GET["arama"])){
 
     $aramadegisken = "%" . "$arama" . "%";
 
-    $stmt = mysqli_prepare($baglanti, "SELECT * FROM kişiler WHERE name LIKE ?");
+    $stmt = mysqli_prepare($baglanti, "SELECT * FROM kişiler WHERE name LIKE ? OR surname LIKE ?");
 
-    mysqli_stmt_bind_param($stmt, "s", $aramadegisken);
+    mysqli_stmt_bind_param($stmt, "ss", $aramadegisken, $aramadegisken);
     mysqli_stmt_execute($stmt);
     $sonuc = mysqli_stmt_get_result($stmt);
 
@@ -124,7 +128,7 @@ if(isset($_GET["arama"])){
     echo guvenli($editRow["name"]);
     }  else {echo "";} ?>" placeholder="Ad">
     <input type="text" name="surname" value="<?php if(isset( $editRow)) {
-    echo $editRow["surname"];
+    echo guvenli($editRow["surname"]);
     }  else {echo "";} ?>" placeholder="Soyad">
     <input type="text" name="phone" value="<?php if(isset( $editRow)) {
     echo guvenli($editRow["phone"]);

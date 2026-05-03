@@ -46,11 +46,16 @@ else if(isset($_POST["name"])) {
     if(
         bosMu($name) ||
         bosMu($surname) ||
-        bosMu($phone) ||
+        bosMu($phone) || 
         bosMu($email)
     ) {
         echo "Tüm alanlar doldurulmalı";
-    } else {
+    } else if (!is_numeric($phone) || strlen($phone) < 10 || strlen($phone) > 11 ) {
+        echo "Telefon sadece rakam içermeli ve 10-11 haneli olmalı";
+    }  else if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        echo "Geçersiz mail";
+    }
+    else {
 
     $stmt = mysqli_prepare($baglanti, "INSERT INTO kişiler (name, surname, phone, email) 
     VALUES (?, ?, ?, ?)");

@@ -108,13 +108,22 @@ if(isset($_GET["arama"])){
 }
 ?>
 
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mini Adres Defteri</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 
-<form method="GET">
-    <input type="text" name="arama" placeholder="Ara...">
-    <button type="submit">Ara</button>
+<form method="GET" class="d-flex mb-3">
+    <input type="text" name="arama" placeholder="Ara..." class="form-control me-2">
+    <button type="submit" class="btn btn-primary">Ara</button>
 </form>
 
-<button id="yeniBtn">Yeni</button>
+<button id="yeniBtn" class="btn btn-success mb-3">+ Yeni Kişi</button>
 <div id="modal" style="display: <?php if(isset($editRow)) {echo 'block'; } else {echo 'none'; } ?>; border:1px solid black; padding:20px; width:300px; background:white;">
 
 <form method="post">
@@ -142,7 +151,7 @@ if(isset($_GET["arama"])){
 </div>
  
 
-<table border = "1">
+<table class="table table-bordered table-hover">
     <tr>
         <th>Ad</th>
         <th>Soyad</th>
@@ -163,21 +172,23 @@ if(isset($_GET["arama"])){
     echo  "<td>";
     echo '<form method="GET">';
     echo '<input type="hidden" name="edit_id" value="' . guvenli($row['id']) . '">';
-    echo '<button type="submit">Düzenle</button>';
+    echo '<button type="submit" class = "btn btn-warning btn-sm">Düzenle</button>';
     echo '</form>';
     echo  "</td>";
     echo  "<td>";
     echo '<form method="GET">';
     echo '<input type="hidden" name="sil_id" value="' . guvenli($row['id']) . '">';
-    echo '<button type="submit" onclick="return confirm(\'Silmek istediğinize emin misiniz?\')">Sil</button>';
+    echo '<button type="submit" class = "btn btn-danger btn-sm" onclick="return confirm(\'Silmek istediğinize emin misiniz?\')">Sil</button>';
     echo '</form>';
     echo  "</td>";
     echo  "</tr>";
-
 }
-    
 ?>
 
 </table>
 
 <script src="script.js"></script>
+<div class="container mt-4">
+</div>
+</body>
+</html>

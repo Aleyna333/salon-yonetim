@@ -1,11 +1,14 @@
-# Mini Adres Defteri
 
-PHP ve MySQL ile geliştirdiğim basit bir adres defteri uygulaması.
+# Salon Yönetim Sistemi
+
+PHP ve MySQL ile geliştirdiğim güzellik salonu yönetim uygulaması.
 
 ## Özellikler
-- Kişi ekleme, düzenleme ve silme
+- Müşteri ekleme, düzenleme ve silme
+- Çalışan yönetimi
+- Hizmet yönetimi
+- Randevu takibi
 - Ad ve soyada göre arama
-- Telefon ve e-posta format doğrulaması
 - Bootstrap 5 ile tasarım
 
 ## Teknolojiler
@@ -17,6 +20,5 @@ PHP ve MySQL ile geliştirdiğim basit bir adres defteri uygulaması.
 ## Kurulum
 1. XAMPP'ı kur ve başlat
 2. `mini_adres` adında bir veritabanı oluştur
-3. `kişiler` tablosunu oluştur: id, name, surname, phone, email
-4. Proje dosyalarını `htdocs` klasörüne koy
-5. Tarayıcıdan `localhost/mini_proje` adresine git
+3. Proje dosyalarını `htdocs` klasörüne koy
+4. Tarayıcıdan `localhost/mini_proje` adresine git

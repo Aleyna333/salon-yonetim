@@ -16,7 +16,7 @@ if(isset($_POST["edit_id"]) && $_POST["edit_id"] != ""){
     $email = $_POST["email"];
     $edit_id = $_POST["edit_id"];
 
-    $stmt = mysqli_prepare($baglanti, "UPDATE kişiler SET
+    $stmt = mysqli_prepare($baglanti, "UPDATE musteriler SET
     name = ?,
     surname = ?, 
     phone = ?, 
@@ -49,7 +49,7 @@ else if(isset($_POST["name"])) {
     }
     else {
 
-    $stmt = mysqli_prepare($baglanti, "INSERT INTO kişiler (name, surname, phone, email) 
+    $stmt = mysqli_prepare($baglanti, "INSERT INTO musteriler (name, surname, phone, email) 
     VALUES (?, ?, ?, ?)");
 
     mysqli_stmt_bind_param($stmt, "ssss", $name, $surname, $phone, $email);
@@ -64,7 +64,7 @@ else if(isset($_POST["name"])) {
 if(isset($_GET["sil_id"])){
     $sil_id = $_GET["sil_id"];
 
-    $stmt = mysqli_prepare($baglanti, "DELETE from kişiler where id = ?");
+    $stmt = mysqli_prepare($baglanti, "DELETE from musteriler where id = ?");
 
     mysqli_stmt_bind_param($stmt, "i", $sil_id);
     mysqli_stmt_execute($stmt);
@@ -77,7 +77,7 @@ if(isset($_GET["sil_id"])){
 if(isset($_GET["edit_id"])){
     $edit_id = $_GET["edit_id"];
 
-    $stmt = mysqli_prepare($baglanti, "SELECT * from kişiler where id = ?");
+    $stmt = mysqli_prepare($baglanti, "SELECT * from musteriler where id = ?");
 
     mysqli_stmt_bind_param($stmt, "i", $edit_id);
     mysqli_stmt_execute($stmt);
@@ -91,7 +91,7 @@ if(isset($_GET["arama"])){
 
     $aramadegisken = "%" . "$arama" . "%";
 
-    $stmt = mysqli_prepare($baglanti, "SELECT * FROM kişiler WHERE name LIKE ? OR surname LIKE ?");
+    $stmt = mysqli_prepare($baglanti, "SELECT * FROM musteriler WHERE name LIKE ? OR surname LIKE ?");
 
     mysqli_stmt_bind_param($stmt, "ss", $aramadegisken, $aramadegisken);
     mysqli_stmt_execute($stmt);
@@ -101,7 +101,7 @@ if(isset($_GET["arama"])){
  else 
 {
     $arama = "";
-    $stmt = mysqli_prepare($baglanti, "SELECT * FROM kişiler ");
+    $stmt = mysqli_prepare($baglanti, "SELECT * FROM musteriler ");
     mysqli_stmt_execute($stmt);
     $sonuc = mysqli_stmt_get_result($stmt);
 

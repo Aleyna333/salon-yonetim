@@ -117,7 +117,10 @@ if(isset($_GET["arama"])){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <div class="row"> 
+<?php include "navbar.php"; ?>
 
+<div class="col-10">
 <form method="GET" class="d-flex mb-3">
     <input type="text" name="arama" placeholder="Ara..." class="form-control me-2">
     <button type="submit" class="btn btn-primary">Ara</button>
@@ -189,6 +192,8 @@ if(isset($_GET["arama"])){
 
 <script src="script.js"></script>
 <div class="container mt-4">
+</div>
+</div>
 </div>
 </body>
 </html>

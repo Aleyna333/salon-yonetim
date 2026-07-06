@@ -84,7 +84,12 @@ if(
     <td><?= $row["surname"] ?></td>
     <td><?= $row["phone"] ?></td>
     <td></td>
-    <td></td>
+    <td>
+        <form method="post">
+            <input type="hidden" name="sil_id" value="<?= $row["id"] ?>">
+            <button type="submit" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</button>
+        </form>
+    </td>
     </tr>
     <?php
     } 

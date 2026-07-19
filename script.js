@@ -5,5 +5,5 @@
 
      document.getElementById("kapatBtn").onclick = function() {
          document.getElementById("modal").style.display = "none";
-         window.location.href = "index.php";
+         window.location.href = "musteriler.php";
     };

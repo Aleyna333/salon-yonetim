@@ -31,9 +31,9 @@ $stmt = mysqli_prepare($baglanti, "SELECT COUNT(*) as toplam_musteri from muster
      $bugunku_randevu = mysqli_fetch_assoc($sonuc);
 
      
-    $stmt = mysqli_prepare($baglanti, "SELECT musteriler.name as musteri_adi, calisanlar.name as calisan_adi, hizmetler.name as hizmet_adi, randevular.tarih as randevu_tarihi
+    $stmt = mysqli_prepare($baglanti, "SELECT musteriler.name as musteri_adi, hizmetler.name as hizmet_adi, randevular.tarih as randevu_tarihi
     FROM randevular JOIN musteriler ON randevular.musteri_id = musteriler.id 
-     JOIN calisanlar ON randevular.calisan_id = calisanlar.id JOIN hizmetler ON randevular.hizmet_id = hizmetler.id WHERE DATE(randevular.tarih) = DATE(NOW())");
+    JOIN hizmetler ON randevular.hizmet_id = hizmetler.id WHERE DATE(randevular.tarih) = DATE(NOW())");
      mysqli_stmt_execute($stmt);
      $sonuc = mysqli_stmt_get_result($stmt);
      
@@ -120,15 +120,11 @@ $stmt = mysqli_prepare($baglanti, "SELECT COUNT(*) as toplam_musteri from muster
                         <?php echo $row["musteri_adi"];?>
                     </div>
                     
-                        <div class="col"> 
-                        <?php echo $row["calisan_adi"];?>
-                    </div> 
-
-                        <div class="col"> 
+                    <div class="col"> 
                         <?php echo $row["hizmet_adi"];?>
                     </div> 
 
-                        <div class="col"> 
+                    <div class="col"> 
                         <?php echo $row["randevu_tarihi"];?>
                     </div> 
                     

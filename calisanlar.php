@@ -89,30 +89,38 @@ if(
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Çalışanlar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<div class="row">
+<?php include "navbar.php"; ?>
 
-    <form method="post">
+<div class="col-10 p-3">
+     <form method="post">
         <input type="hidden" name="edit_id" value="<?php if(isset($editRow)) {
             echo guvenli($editRow["id"]);
         } else{echo "";} ?>">
 
-         <input type="text" name="name" placeholder="Ad" value="<?php if(isset($editRow)) {
+         <input type="text" class="form-control mb-2" name="name" placeholder="Ad" value="<?php if(isset($editRow)) {
             echo guvenli($editRow["name"]);
         } else{echo "";} ?>">
 
-         <input type="text" name="surname" placeholder="Soyad" value="<?php if(isset($editRow)) {
+         <input type="text" class="form-control mb-2" name="surname" placeholder="Soyad" value="<?php if(isset($editRow)) {
             echo guvenli($editRow["surname"]);
         } else{echo "";} ?>">
 
-         <input type="text" name="phone" placeholder="Telefon" value="<?php if(isset($editRow)) {
+         <input type="text" class="form-control mb-2" name="phone" placeholder="Telefon" value="<?php if(isset($editRow)) {
             echo guvenli($editRow["phone"]);
         } else{echo "";} ?>">
 
-        <button type="submit">Kaydet</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+        <?php if(isset($editRow)) { ?>
+        <a href="calisanlar.php" class="btn btn-secondary">İptal</a>
+        <?php } ?>
+
     </form>
 
-    <table>
+    <table class="table table-bordered table-hover">
         <tr>
             <th>Ad</th>
             <th>Soyad</th>
@@ -130,13 +138,13 @@ if(
     <td>
         <form method="Get">
             <input type="hidden" name="edit_id" value="<?= guvenli($row["id"]) ?>">
-            <button type="submit">Düzenle</button>
+            <button type="submit" class="btn btn-warning btn-sm">Düzenle</button>
         </form>
     </td>
     <td>
         <form method="post">
             <input type="hidden" name="sil_id" value="<?= guvenli($row["id"]) ?>">
-            <button type="submit" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</button>
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</button>
         </form>
     </td>
     </tr>
@@ -145,5 +153,8 @@ if(
     ?>
 
     </table>
+</div>
+</div>
+
 </body>
 </html>

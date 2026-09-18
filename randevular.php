@@ -64,7 +64,7 @@ if(isset($_POST["edit_id"]) && $_POST["edit_id"] != "") {
     }
 }
 
-    $stmt = mysqli_prepare($baglanti, "SELECT musteriler.name as musteri_adi, musteriler.surname as musteri_soyadı, hizmetler.name as hizmet_adi, randevular.tarih as randevu_tarihi, randevular.id as randevu_id from randevular 
+    $stmt = mysqli_prepare($baglanti, "SELECT musteriler.name as musteri_adi, musteriler.surname as musteri_soyadi, hizmetler.name as hizmet_adi, randevular.tarih as randevu_tarihi, randevular.id as randevu_id from randevular 
     JOIN musteriler ON randevular.musteri_id = musteriler.id JOIN hizmetler ON randevular.hizmet_id = hizmetler.id ");
     mysqli_stmt_execute($stmt);
     $sonuc = mysqli_stmt_get_result($stmt);
@@ -94,15 +94,21 @@ if(isset($_POST["edit_id"]) && $_POST["edit_id"] != "") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Randevular</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <form method="post">
+
+<div class="row">
+    <?php include "navbar.php"; ?>
+
+    <div class="col-10 p-3">
+        <form method="post">
         <input type="hidden" name="edit_id" value="<?php if(isset($editRow)) {
     echo guvenli($editRow["id"]);
     } else{echo"";} ?>">
 
- <select name="musteri_id">
+ <select name="musteri_id" class="form-control mb-2">
 
         <?php while($row = mysqli_fetch_assoc($musteri_sonuc)){ ?>
         <option value="<?= guvenli($row["id"]) ?>" <?php if(isset($editRow) && $editRow["musteri_id"] == $row["id"])
@@ -111,7 +117,7 @@ if(isset($_POST["edit_id"]) && $_POST["edit_id"] != "") {
         <?php } ?>
     </select>
 
-        <select name="hizmet_id">
+        <select name="hizmet_id" class="form-control mb-2">
         <?php while($row = mysqli_fetch_assoc($hizmet_sonuc)){ ?>
         <option value="<?= guvenli($row["id"]) ?>" <?php if(isset($editRow) && $editRow["hizmet_id"] == $row["id"])         
             echo "selected"; ?>><?= guvenli($row["name"]) ?></option>
@@ -119,17 +125,20 @@ if(isset($_POST["edit_id"]) && $_POST["edit_id"] != "") {
         <?php } ?>
     </select>
 
-    <input type="date" name="tarih"  value="<?php if(isset($editRow)) {
+    <input type="date" class="form-control mb-2" name="tarih"  value="<?php if(isset($editRow)) {
     echo guvenli($editRow["tarih"]);
     } else{echo"";} ?>">
 
-    <button type="submit">Kaydet</button>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <?php if(isset($editRow)) { ?>
+        <a href="randevular.php"class="btn btn-secondary">İptal</a>
+        <?php } ?>
 
     </form>   
-        <table>
+        <table class="table table-bordered table-hover">
         <tr>
-            <th>Müşteri Adi/Soyadı</th>
-            <th>Hizmet Adi</th>
+            <th>Müşteri</th>
+            <th>Hizmet</th>
             <th>Randevu Tarihi</th>
             <th>Düzenle</th>
             <th>Sil</th>
@@ -137,19 +146,19 @@ if(isset($_POST["edit_id"]) && $_POST["edit_id"] != "") {
 
         <?php while($row = mysqli_fetch_assoc($sonuc)){ ?>
         <tr>
-            <td><?php echo guvenli($row["musteri_adi"]);?></td> <td><?php echo guvenli($row["musteri_soyadı"]);?></td>
+            <td><?php echo guvenli($row["musteri_adi"] . " " . $row["musteri_soyadi"]);?></td> 
             <td><?php echo guvenli($row["hizmet_adi"]);?></td>
             <td><?php echo guvenli($row["randevu_tarihi"]);?></td>
             <td> 
                 <form method="get">
                     <input type="hidden" name="edit_id" value="<?= guvenli($row["randevu_id"])?>">
-                    <button type="submit">Düzenle</button>
+                    <button type="submit" class="btn btn-warning btn-sm">Düzenle</button>
                 </form>
             </td>
             <td>
                 <form method="post">
                     <input type="hidden" name="sil_id" value="<?= guvenli($row["randevu_id"] )?>">
-                    <button type="submit" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</button>
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</button>
                 </form>
             </td>
         </tr>
@@ -158,7 +167,9 @@ if(isset($_POST["edit_id"]) && $_POST["edit_id"] != "") {
         }
         ?>
 
-        
     </table>
+
+    </div>
+</div>
 </body>
 </html>

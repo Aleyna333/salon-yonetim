@@ -113,7 +113,7 @@ if(isset($_GET["arama"])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mini Adres Defteri</title>
+    <title>Müşteriler</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -175,13 +175,13 @@ if(isset($_GET["arama"])){
     echo  "<td>";
     echo '<form method="GET">';
     echo '<input type="hidden" name="edit_id" value="' . guvenli($row['id']) . '">';
-    echo '<button type="submit" class = "btn btn-warning btn-sm">Düzenle</button>';
+    echo '<button type="submit" class="btn btn-warning btn-sm">Düzenle</button>';
     echo '</form>';
     echo  "</td>";
     echo  "<td>";
     echo '<form method="GET">';
     echo '<input type="hidden" name="sil_id" value="' . guvenli($row['id']) . '">';
-    echo '<button type="submit" class = "btn btn-danger btn-sm" onclick="return confirm(\'Silmek istediğinize emin misiniz?\')">Sil</button>';
+    echo '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Silmek istediğinize emin misiniz?\')">Sil</button>';
     echo '</form>';
     echo  "</td>";
     echo  "</tr>";

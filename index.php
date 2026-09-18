@@ -52,7 +52,7 @@ $stmt = mysqli_prepare($baglanti, "SELECT COUNT(*) as toplam_musteri from muster
 
 <div class="row g-3">
 
-<div class="col-2"><?php include "navbar.php"; ?></div>
+<?php include "navbar.php"; ?>
 
 <div class="col-10 p-3">
 <div class="row g-3">
@@ -60,19 +60,19 @@ $stmt = mysqli_prepare($baglanti, "SELECT COUNT(*) as toplam_musteri from muster
     <div class="col-7">
         <div class="row">
              <div class="col-6">
-    <div class="card">
+    <div class="card shadow-sm text-center border-primary">
         <div class="card-body">
             <h5>Toplam Müşteri</h5>
-            <p> <?php echo ($toplam_musteri["toplam_musteri"]);?></p>
+            <p class="fs-3 fw-bold text-primary"> <?php echo (guvenli($toplam_musteri["toplam_musteri"]));?></p>
         </div>
     </div>
     </div>
 
     <div class="col-6">
-    <div class="card">
+    <div class="card shadow-sm text-center border-success">
         <div class="card-body">
             <h5>Toplam Çalışan</h5>
-            <p><?php echo($toplam_calisan["toplam_calisan"]); ?></p>
+            <p class="fs-3 fw-bold text-success"><?php echo(guvenli($toplam_calisan["toplam_calisan"])); ?></p>
         </div>
     </div>
     </div>
@@ -80,19 +80,19 @@ $stmt = mysqli_prepare($baglanti, "SELECT COUNT(*) as toplam_musteri from muster
     
 <div class=" col-12 row g-3 mt-3">
 <div class="col-6">
-    <div class="card">
+    <div class="card shadow-sm text-center border-warning">
         <div class="card-body">
             <h5>Toplam Hizmet</h5>
-            <p><?php echo($toplam_hizmet["toplam_hizmet"]); ?></p>
+            <p class="fs-3 fw-bold text-warning"><?php echo(guvenli($toplam_hizmet["toplam_hizmet"])); ?></p>
         </div>
     </div>
     </div>
 
     <div class="col-6">
-    <div class="card">
+    <div class="card shadow-sm text-center border-info">
         <div class="card-body">
             <h5>Bugünkü Randevu</h5>
-            <p><?php echo($bugunku_randevu["bugunku_randevu"]); ?></p>
+            <p class="fs-3 fw-bold text-info"><?php echo(guvenli($bugunku_randevu["bugunku_randevu"])); ?></p>
         </div>
     </div>
     </div>
@@ -106,32 +106,28 @@ $stmt = mysqli_prepare($baglanti, "SELECT COUNT(*) as toplam_musteri from muster
 
             <h5>Bugünkü Randevular</h5>
 
-            <?php   
-            if(mysqli_num_rows($sonuc)==0){
-                echo "Bugün için randevu yok";
-            }else
-            ?>
-
-            <?php  while($row = mysqli_fetch_assoc($sonuc)) {
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Müşteri</th>
+                    <th>Hizmet</th>
+                    <th>Tarih</th>
+                </tr>
+                <?php   
+                if(mysqli_num_rows($sonuc)==0){
+                    echo "<tr><td colspan='3'>Bugün için randevu yok</td></tr>";
+                } else {
+                    while($row = mysqli_fetch_assoc($sonuc)) {
+                    ?>
+                    <tr>
+                        <td><?php echo guvenli($row["musteri_adi"]); ?></td>
+                        <td><?php echo guvenli($row["hizmet_adi"]); ?></td>
+                        <td><?php echo guvenli($row["randevu_tarihi"]); ?></td>
+                    </tr>
+                    <?php
+                    }
+                }
                 ?>
-
-                <div class="row">
-                    <div class="col"> 
-                        <?php echo $row["musteri_adi"];?>
-                    </div>
-                    
-                    <div class="col"> 
-                        <?php echo $row["hizmet_adi"];?>
-                    </div> 
-
-                    <div class="col"> 
-                        <?php echo $row["randevu_tarihi"];?>
-                    </div> 
-                    
-                </div>
- 
-            <?php
-            } ?>
+            </table>
         </div>
  
     </div>

@@ -1,4 +1,5 @@
 <?php
+require "auth.php";
 require "db.php";
 
 function guvenli($veri) {
@@ -8,11 +9,19 @@ function guvenli($veri) {
 function bosMu($veri) {
     return empty(trim($veri));
 }
+
+function telefonDuzelt($tel) {
+    return preg_replace('/\D/', '', $tel);
+}
+
+function telefonGecerliMi($tel) {
+    return strlen($tel) == 11 && substr($tel, 0, 2) == "05";
+}
  
 if(isset($_POST["edit_id"]) && ($_POST["edit_id"]) != "") {
     $name = $_POST["name"];
     $surname = $_POST["surname"];
-    $phone = $_POST["phone"];
+    $phone = telefonDuzelt($_POST["phone"]);
     $edit_id = $_POST["edit_id"];
 
     if(
@@ -21,8 +30,8 @@ if(isset($_POST["edit_id"]) && ($_POST["edit_id"]) != "") {
     bosMu($phone)
 ) {
     echo "bu alanlar dolu olmalı";
-} else if (!is_numeric($phone) || strlen($phone) < 10 || strlen($phone) > 11){
-        echo "Telefon sadece sayı içermeli ve 10-11 haneli olmalı";
+} else if (!telefonGecerliMi($phone)) {
+    echo "Telefon 05 ile başlayan 11 haneli olmalı (örn: 05321234567)";
         } else {
 
     $stmt = mysqli_prepare($baglanti, "UPDATE calisanlar SET
@@ -41,7 +50,7 @@ if(isset($_POST["edit_id"]) && ($_POST["edit_id"]) != "") {
  else if(isset($_POST["name"])) {
         $name = $_POST["name"];
         $surname = $_POST["surname"];
-        $phone = $_POST["phone"];
+        $phone = telefonDuzelt($_POST["phone"]);
 
 if(
     bosMu($name)||
@@ -49,8 +58,8 @@ if(
     bosMu($phone)
 ) {
     echo "bu alanlar dolu olmalı";
-} else if (!is_numeric($phone) || strlen($phone) < 10 || strlen($phone) > 11){
-        echo "Telefon sadece sayı içermeli ve 10-11 haneli olmalı";
+} else if (!telefonGecerliMi($phone)) {
+    echo "Telefon 05 ile başlayan 11 haneli olmalı (örn: 05321234567)";
         } else {
             $stmt = mysqli_prepare($baglanti, "INSERT INTO calisanlar (name, surname, phone) VALUES(?, ?, ?)");
             mysqli_stmt_bind_param($stmt, "sss", $name, $surname, $phone);
@@ -84,77 +93,73 @@ if(
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Çalışanlar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
+<div class="container-fluid">
 <div class="row">
 <?php include "navbar.php"; ?>
 
-<div class="col-10 p-3">
-     <form method="post">
-        <input type="hidden" name="edit_id" value="<?php if(isset($editRow)) {
-            echo guvenli($editRow["id"]);
-        } else{echo "";} ?>">
+<main class="col-12 col-md-10 p-3">
+    <h4 class="mb-3">Çalışanlar</h4>
 
-         <input type="text" class="form-control mb-2" name="name" placeholder="Ad" value="<?php if(isset($editRow)) {
-            echo guvenli($editRow["name"]);
-        } else{echo "";} ?>">
+    <form method="post" class="row g-2 mb-4">
+        <input type="hidden" name="edit_id" value="<?= isset($editRow) ? guvenli($editRow["id"]) : "" ?>">
 
-         <input type="text" class="form-control mb-2" name="surname" placeholder="Soyad" value="<?php if(isset($editRow)) {
-            echo guvenli($editRow["surname"]);
-        } else{echo "";} ?>">
-
-         <input type="text" class="form-control mb-2" name="phone" placeholder="Telefon" value="<?php if(isset($editRow)) {
-            echo guvenli($editRow["phone"]);
-        } else{echo "";} ?>">
-
-        <button type="submit" class="btn btn-primary">Kaydet</button>
-        <?php if(isset($editRow)) { ?>
-        <a href="calisanlar.php" class="btn btn-secondary">İptal</a>
-        <?php } ?>
-
+        <div class="col-12 col-md-3">
+            <input type="text" class="form-control" name="name" placeholder="Ad" value="<?= isset($editRow) ? guvenli($editRow["name"]) : "" ?>">
+        </div>
+        <div class="col-12 col-md-3">
+            <input type="text" class="form-control" name="surname" placeholder="Soyad" value="<?= isset($editRow) ? guvenli($editRow["surname"]) : "" ?>">
+        </div>
+        <div class="col-12 col-md-3">
+            <input type="tel" class="form-control" name="phone" placeholder="05XX XXX XX XX" value="<?= isset($editRow) ? guvenli($editRow["phone"]) : "" ?>">
+        </div>
+        <div class="col-12 col-md-3 d-flex gap-1">
+            <button type="submit" class="btn btn-primary flex-fill">Kaydet</button>
+            <?php if(isset($editRow)) { ?>
+                <a href="calisanlar.php" class="btn btn-secondary">İptal</a>
+            <?php } ?>
+        </div>
     </form>
 
-    <table class="table table-bordered table-hover">
-        <tr>
-            <th>Ad</th>
-            <th>Soyad</th>
-            <th>Telefon</th>
-            <th>Düzenle</th>
-            <th>Sil</th>
-        </tr>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle bg-white border">
+            <thead class="table-light">
+                <tr><th>Ad</th><th>Soyad</th><th>Telefon</th><th style="width:1%">İşlemler</th></tr>
+            </thead>
+            <tbody>
+            <?php while($row = mysqli_fetch_assoc($sonuc)) { ?>
+                <tr>
+                    <td><?= guvenli($row["name"]) ?></td>
+                    <td><?= guvenli($row["surname"]) ?></td>
+                    <td><?= guvenli($row["phone"]) ?></td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            <form method="get">
+                                <input type="hidden" name="edit_id" value="<?= guvenli($row["id"]) ?>">
+                                <button type="submit" class="btn btn-warning btn-sm">Düzenle</button>
+                            </form>
+                            <form method="post">
+                                <input type="hidden" name="sil_id" value="<?= guvenli($row["id"]) ?>">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</main>
 
-    <?php    
-    while($row = mysqli_fetch_assoc($sonuc)) { ?>
-    <tr>
-    <td><?= guvenli($row["name"]) ?></td>
-    <td><?= guvenli($row["surname"]) ?></td>
-    <td><?= guvenli($row["phone"]) ?></td>
-    <td>
-        <form method="Get">
-            <input type="hidden" name="edit_id" value="<?= guvenli($row["id"]) ?>">
-            <button type="submit" class="btn btn-warning btn-sm">Düzenle</button>
-        </form>
-    </td>
-    <td>
-        <form method="post">
-            <input type="hidden" name="sil_id" value="<?= guvenli($row["id"]) ?>">
-            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</button>
-        </form>
-    </td>
-    </tr>
-    <?php
-    } 
-    ?>
-
-    </table>
 </div>
 </div>
-
 </body>
 </html>

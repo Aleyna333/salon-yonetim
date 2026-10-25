@@ -1,0 +1,5 @@
+body { background: #f4f5f7; }
+.sidebar { background: #1f2937; min-height: 100vh; }
+.sidebar .nav-link { color: #cbd5e1; }
+.sidebar .nav-link:hover { color: #ffffff; background: rgba(255,255,255,0.08); }
+.sidebar .nav-link.active { color: #ffffff; }
